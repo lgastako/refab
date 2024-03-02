@@ -1,7 +1,6 @@
 use std::io::Read;
 
 use crate::fabric;
-use crate::ai;
 
 pub fn run(command: String) {
     let prompt_eth = fabric::load(command);
@@ -11,7 +10,7 @@ pub fn run(command: String) {
             // token limits of the model in use...
             let mut input = String::new();
             std::io::stdin().read_to_string(&mut input).unwrap();
-            let output = ai::complete(prompt, input);
+            let output = complete(prompt, input);
             println!("{}", output);
             std::process::exit(exitcode::OK);
         }

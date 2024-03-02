@@ -6,7 +6,6 @@ pub fn load(command: String) -> Result<String, String> {
     // println!("Full path: {}", full_path);
     match std::fs::read_to_string(full_path) {
         Ok(content) => {
-            //   Ok(content),
             // We expect every file to end with something like this:
             //
             //     # INPUT:
