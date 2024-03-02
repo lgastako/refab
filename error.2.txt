@@ -1,9 +1,0 @@
-   Compiling refab v0.1.0 (/Users/john/src/refab)
-error[E0432]: unresolved import `crate::fabric`
- --> src/ai.rs:1:5
-  |
-1 | use crate::fabric;
-  |     ^^^^^^^^^^^^^ no `fabric` in the root
-
-For more information about this error, try `rustc --explain E0432`.
-error: could not compile `refab` (bin "refab") due to previous error
