@@ -1,3 +1,4 @@
+mod fabric;
 use clap::Parser;
 
 mod ai;

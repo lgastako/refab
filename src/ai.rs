@@ -3,7 +3,7 @@ use crate::fabric;
 pub fn run(command: String) {
     println!("Running command: {}", command);
     // We need to first load the prompt from the fabric directory
-    let s: String = fabric::load(command).to_string();
+    let _s: String = fabric::load(command).to_string();
     // If the prompt does not exist we need to report an error appropriately
     // Assuming the prompt has been successfully loaded, then...
     // We need to read the entire contents of stdin and store it in a variable
