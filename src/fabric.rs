@@ -17,17 +17,13 @@ pub fn load(command: String) -> Result<String, String> {
 
             let mut prompt = String::new();
             for line in content.lines() {
-                println!("LINE: {}", line);
                 if line.starts_with("# INPUT:") {
-                    prompt.push_str(line);
-                    prompt.push_str("\n");
-                    println!("breaking");
                     break;
                 }
-                println!("pushing");
                 prompt.push_str(line);
                 prompt.push_str("\n");
             }
+            prompt.push_str("# INPUT:\n\n");
             Ok(prompt)
         }
         Err(_) => {
