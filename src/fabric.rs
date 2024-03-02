@@ -1,9 +1,19 @@
+use dotenv::dotenv;
+
 pub fn load(command: String) -> Result<String, String> {
-    // TODO unhardcode the base path
-    let path = "/Users/john/src/fabric/patterns";
+    dotenv().unwrap();
+
+    let path = match std::env::var("FABRIC_PATH") {
+        Ok(p) => p,
+        Err(_) => {
+            eprintln!("FABRIC_PATH environment variable not set");
+            std::process::exit(exitcode::DATAERR);
+        }
+    };
+
     let full_path = format!("{}/{}/system.md", path, command);
     let full_path2 = full_path.clone();
-    // println!("Full path: {}", full_path);
+
     match std::fs::read_to_string(full_path) {
         Ok(content) => {
             // We expect every file to end with something like this:
