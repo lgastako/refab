@@ -1,0 +1,10 @@
+   Compiling refab v0.1.0 (/Users/john/src/refab)
+error[E0583]: file not found for module `fabric`
+ --> src/ai.rs:1:1
+  |
+1 | mod fabric;
+  | ^^^^^^^^^^^
+  |
+  = help: to create the module `fabric`, create file "src/ai/fabric.rs" or "src/ai/fabric/mod.rs"
+  = note: if there is a `mod fabric` elsewhere in the crate already, import it with `use crate::...` instead
+
