@@ -1,6 +1,7 @@
     pub fn run(command: String) {
         println!("Running command: {}", command);
         // We need to first load the prompt from the fabric directory
+        s = fabric::load(command)
         // If the prompt does not exist we need to report an error appropriately
         // Assuming the prompt has been successfully loaded, then...
         // We need to read the entire contents of stdin and store it in a variable
