@@ -1,3 +1,3 @@
-pub fn load(_command: String) -> String {
-    return "soon".to_string();
+pub fn load(_command: String) -> Option<String> {
+    None
 }
