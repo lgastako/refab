@@ -1,20 +1,10 @@
-use dotenv::dotenv;
-
 pub fn load(command: String) -> Result<String, String> {
-    dotenv().unwrap();
-
-    let path = match std::env::var("FABRIC_PATH") {
-        Ok(p) => p,
-        Err(_) => {
-            eprintln!("FABRIC_PATH environment variable not set");
-            std::process::exit(exitcode::DATAERR);
-        }
-    };
-
+    let var = "REFAB_FABRIC_PATTERNS_PATH".to_string();
+    let error_msg = format!("{} environment variable", var);
+    let path = std::env::var(var).expect(&error_msg);
     let full_path = format!("{}/{}/system.md", path, command);
-    let full_path2 = full_path.clone();
 
-    match std::fs::read_to_string(full_path) {
+    match std::fs::read_to_string(&full_path) {
         Ok(content) => {
             // We expect every file to end with something like this:
             //
@@ -37,7 +27,7 @@ pub fn load(command: String) -> Result<String, String> {
             Ok(prompt)
         }
         Err(_) => {
-            let msg = format!("Could not load prompt from '{}'", full_path2);
+            let msg = format!("Could not load prompt from '{}'", full_path);
             Err(msg.to_string())
         }
     }

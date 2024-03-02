@@ -1,6 +1,5 @@
 use std::{future::Future, io::Read, pin::Pin};
 
-use dotenv::dotenv;
 use openai::{chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole}, set_key};
 
 use crate::fabric;
@@ -12,7 +11,7 @@ pub async fn run(command: String) {
             // TODO We need to set some maximum size here, which should be derived from the
             // token limits of the model in use...
             let mut input = String::new();
-            std::io::stdin().read_to_string(&mut input).unwrap();
+            std::io::stdin().read_to_string(&mut input).expect("failed to read input from stdin");
             let output_future: Pin<Box<dyn Future<Output = String>>> = Box::pin(complete(prompt, input));
             let output: String = output_future.await;
             println!("{}", output);
@@ -26,9 +25,8 @@ pub async fn run(command: String) {
 }
 
 pub async fn complete(prompt: String, input: String) -> String {
-    dotenv().unwrap();
-    let key_var = "OPENAI_API_KEY";
-    let model_var = "OPENAI_MODEL";
+    let key_var = "REFAB_OPENAI_API_KEY";
+    let model_var = "REFAB_OPENAI_MODEL";
 
     let default_model = "gpt-3.5-turbo-instruct".to_string();
 
@@ -62,11 +60,11 @@ pub async fn complete(prompt: String, input: String) -> String {
     let chat_completion = ChatCompletion::builder(&model, messages.clone())
             .create()
             .await
-            .unwrap();
+            .expect("ChatCompletion call to OpenAI failed");
 
     let returned_message = chat_completion.choices
             .first()
-            .unwrap()
+            .expect("Not chat completion choices returned")
             .message
             .clone();
 
