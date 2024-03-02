@@ -7,9 +7,6 @@ struct Cli {
 }
 
 fn main() {
-    println!("Hello, world!");
-
     let args = Cli::parse();
-
     println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 }
