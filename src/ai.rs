@@ -26,20 +26,28 @@ pub async fn run(command: String) {
 }
 
 pub async fn complete(prompt: String, input: String) -> String {
-    // TODO move to an init method or something
     dotenv().unwrap();
-    let var = "OPENAI_API_KEY";
-    match dotenv::var(var) {
+    let key_var = "OPENAI_API_KEY";
+    let model_var = "OPENAI_MODEL";
+
+    let default_model = "gpt-3.5-turbo-instruct".to_string();
+
+    let model = match dotenv::var(model_var) {
+        Ok(model) => model,
+        Err(_) => default_model
+    };
+
+    match dotenv::var(key_var) {
         Ok(key) => set_key(key),
         Err(_) => {
-            eprintln!("Could not load OpenAI key from environment variable {}", var);
+            eprintln!("Could not load OpenAI key from environment variable {}", key_var);
             std::process::exit(exitcode::DATAERR);
         }
     }
 
     let prompt = format!("{}{}", prompt, input);
 
-    let completion = Completion::builder("gpt-3.5-turbo-instruct")
+    let completion = Completion::builder(&model)
         .prompt(&prompt)
         .max_tokens(1024)
         .create()
