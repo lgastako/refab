@@ -1,7 +1,7 @@
 use std::{future::Future, io::Read, pin::Pin};
 
 use dotenv::dotenv;
-use openai::{completions::Completion, set_key};
+use openai::{chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole}, set_key};
 
 use crate::fabric;
 
@@ -45,16 +45,32 @@ pub async fn complete(prompt: String, input: String) -> String {
         }
     }
 
-    let prompt = format!("{}{}", prompt, input);
+    let mut messages = vec![ChatCompletionMessage {
+        role: ChatCompletionMessageRole::System,
+        content: Some(prompt),
+        name: None,
+        function_call: None,
+    }];
 
-    let completion = Completion::builder(&model)
-        .prompt(&prompt)
-        .max_tokens(1024)
-        .create()
-        .await
-        .unwrap();
+    messages.push(ChatCompletionMessage {
+        role: ChatCompletionMessageRole::User,
+        content: Some(input),
+        name: None,
+        function_call: None,
+    });
 
-    let output = format!("{}", completion.choices[0].text);
+    let chat_completion = ChatCompletion::builder(&model, messages.clone())
+            .create()
+            .await
+            .unwrap();
+
+    let returned_message = chat_completion.choices
+            .first()
+            .unwrap()
+            .message
+            .clone();
+
+    let output = returned_message.content.clone().unwrap().trim().to_string();
 
     output
 }
