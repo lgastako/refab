@@ -1,3 +1,4 @@
+
 use clap::Parser;
 
 mod fabric;
@@ -8,7 +9,8 @@ struct Cli {
     command: String
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let args = Cli::parse();
-    ai::run(args.command)
+    ai::run(args.command).await;
 }
