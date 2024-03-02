@@ -1,12 +1,13 @@
 use clap::Parser;
 
+mod ai;
+
 #[derive(Parser)]
 struct Cli {
-    pattern: String,
-    path: std::path::PathBuf,
+    command: String
 }
 
 fn main() {
     let args = Cli::parse();
-    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
+    ai::run(args.command)
 }
