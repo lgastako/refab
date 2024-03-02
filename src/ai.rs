@@ -1,16 +1,28 @@
+use std::io::Read;
+
 use crate::fabric;
+use crate::ai;
 
 pub fn run(command: String) {
-    println!("Running command: {}", command);
-    // We need to first load the prompt from the fabric directory
-    let _os: Option<String> = fabric::load(command);
-//    let _s: String = fabric::load(command).to_string();
-    // If the prompt does not exist we need to report an error appropriately
-    // Assuming the prompt has been successfully loaded, then...
-    // We need to read the entire contents of stdin and store it in a variable
-    // We need to set some maximum size here, which should be derived from the
-    // token limits of the model in use...
-    // We need to then pass the prompt and the input to the model
-    // We need to then print the output to stdout
-    // And exit with a status code of 0
+    let prompt_eth = fabric::load(command);
+    match prompt_eth {
+        Ok(prompt) => {
+            // TODO We need to set some maximum size here, which should be derived from the
+            // token limits of the model in use...
+            let mut input = String::new();
+            std::io::stdin().read_to_string(&mut input).unwrap();
+            let output = ai::complete(prompt, input);
+            println!("{}", output);
+            std::process::exit(exitcode::OK);
+        }
+        Err(msg) => {
+            eprintln!("Could not load prompt: {msg}");
+            std::process::exit(exitcode::DATAERR);
+        }
+    }
+}
+
+pub fn complete(prompt: String, input: String) -> String {
+    let output = format!("TEMPORARY Prompt: {}\nInput: {}", prompt, input);
+    output
 }

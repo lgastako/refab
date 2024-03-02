@@ -1,6 +1,6 @@
-mod fabric;
 use clap::Parser;
 
+mod fabric;
 mod ai;
 
 #[derive(Parser)]
