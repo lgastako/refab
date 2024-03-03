@@ -13,5 +13,9 @@ struct Cli {
 async fn main() {
     dotenv().ok();
     let args = Cli::parse();
-    ai::run(args.command).await;
+    if args.command == "list" {
+        fabric::list();
+    } else {
+        ai::run(args.command).await;
+    }
 }

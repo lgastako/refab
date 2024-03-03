@@ -1,4 +1,36 @@
-use std::path::Path;
+use std::{fs::DirEntry, path::Path};
+
+fn compare_dir_entries(a: &DirEntry, b: &DirEntry) -> std::cmp::Ordering {
+    let a = a.path();
+    let b = b.path();
+    let a = a.file_name().expect("Could not get file name");
+    let b = b.file_name().expect("Could not get file name");
+    a.cmp(&b)
+}
+
+pub fn list() -> () {
+    let var = "REFAB_FABRIC_PATTERNS_PATHS".to_string();
+    let error_msg = format!("{} environment variable", var);
+    let paths = std::env::var(var).expect(&error_msg);
+
+    for path in paths.split(";") {
+        let check_path = Path::new(path);
+        if std::path::Path::exists(&check_path) {
+            println!("FROM PATH: {}", path);
+
+            let dir_read: std::fs::ReadDir = std::fs::read_dir(path).expect("Could not read directory");
+            let mut entries: Vec<DirEntry> = dir_read.collect::<Result<Vec<DirEntry>, std::io::Error>>().expect("Could not collect entries");
+            entries.sort_by(compare_dir_entries);
+            for entry in entries {
+                let path = entry.path();
+                if path.is_dir() {
+                    let name = path.file_name().expect("Could not get file name");
+                    println!("  {}", name.to_str().expect("Could not convert to string"));
+                }
+            }
+        }
+    }
+}
 
 pub fn load(command: String) -> Result<String, String> {
     let var = "REFAB_FABRIC_PATTERNS_PATHS".to_string();
