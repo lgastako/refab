@@ -12,6 +12,7 @@ pub async fn run(command: String) {
             // token limits of the model in use...
             let mut input = String::new();
             std::io::stdin().read_to_string(&mut input).expect("failed to read input from stdin");
+
             let output_future: Pin<Box<dyn Future<Output = String>>> = Box::pin(complete(prompt, input));
             let output: String = output_future.await;
             println!("{}", output);
@@ -25,7 +26,7 @@ pub async fn run(command: String) {
 }
 
 pub async fn complete(prompt: String, input: String) -> String {
-    let key_var = "REFAB_OPENAI_API_KEY";
+    let key_var   = "REFAB_OPENAI_API_KEY";
     let model_var = "REFAB_OPENAI_MODEL";
 
     let default_model = "gpt-3.5-turbo-instruct".to_string();
