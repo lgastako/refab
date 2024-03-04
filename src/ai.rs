@@ -1,4 +1,4 @@
-use std::{future::Future, io::Read, pin::Pin};
+use std::io::Read;
 
 use openai::{chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole}, set_key};
 
@@ -13,8 +13,7 @@ pub async fn run(command: String) {
             let mut input = String::new();
             std::io::stdin().read_to_string(&mut input).expect("failed to read input from stdin");
 
-            let output_future: Pin<Box<dyn Future<Output = String>>> = Box::pin(complete(prompt, input));
-            let output: String = output_future.await;
+            let output: String = complete(prompt, input).await;
             println!("{}", output);
             std::process::exit(exitcode::OK);
         }
