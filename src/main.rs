@@ -1,12 +1,12 @@
 use clap::Parser;
 use dotenv::dotenv;
 
-mod fabric;
 mod ai;
+mod fabric;
 
 #[derive(Parser)]
 struct Cli {
-    command: String
+    command: String,
 }
 
 #[tokio::main]

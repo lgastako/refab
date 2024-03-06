@@ -18,8 +18,11 @@ pub fn list() -> () {
         if std::path::Path::exists(&check_path) {
             println!("FROM PATH: {}", path);
 
-            let dir_read: std::fs::ReadDir = std::fs::read_dir(path).expect("Could not read directory");
-            let mut entries: Vec<DirEntry> = dir_read.collect::<Result<Vec<DirEntry>, std::io::Error>>().expect("Could not collect entries");
+            let dir_read: std::fs::ReadDir =
+                std::fs::read_dir(path).expect("Could not read directory");
+            let mut entries: Vec<DirEntry> = dir_read
+                .collect::<Result<Vec<DirEntry>, std::io::Error>>()
+                .expect("Could not collect entries");
             entries.sort_by(compare_dir_entries);
             for entry in entries {
                 let path = entry.path();
@@ -43,12 +46,15 @@ pub fn load(command: String) -> Result<String, String> {
         let check_path = Path::new(&check_path_str);
         if std::path::Path::exists(&check_path) {
             full_path.push_str(&check_path_str);
-            break
+            break;
         }
     }
 
     if full_path.is_empty() {
-        let msg = format!("Could not find a file for command '{}'. Checked paths: {}", command, paths);
+        let msg = format!(
+            "Could not find a file for command '{}'. Checked paths: {}",
+            command, paths
+        );
         return Err(msg.to_string());
     }
 

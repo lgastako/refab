@@ -1,6 +1,9 @@
 use std::io::Read;
 
-use openai::{chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole}, set_key};
+use openai::{
+    chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole},
+    set_key,
+};
 
 use crate::fabric;
 
@@ -11,7 +14,9 @@ pub async fn run(command: String) {
             // TODO We need to set some maximum size here, which should be derived from the
             // token limits of the model in use...
             let mut input = String::new();
-            std::io::stdin().read_to_string(&mut input).expect("failed to read input from stdin");
+            std::io::stdin()
+                .read_to_string(&mut input)
+                .expect("failed to read input from stdin");
 
             let output: String = complete(prompt, input).await;
             println!("{}", output);
@@ -25,20 +30,23 @@ pub async fn run(command: String) {
 }
 
 pub async fn complete(prompt: String, input: String) -> String {
-    let key_var   = "REFAB_OPENAI_API_KEY";
+    let key_var = "REFAB_OPENAI_API_KEY";
     let model_var = "REFAB_OPENAI_MODEL";
 
     let default_model = "gpt-3.5-turbo-instruct".to_string();
 
     let model = match dotenv::var(model_var) {
         Ok(model) => model,
-        Err(_) => default_model
+        Err(_) => default_model,
     };
 
     match dotenv::var(key_var) {
         Ok(key) => set_key(key),
         Err(_) => {
-            eprintln!("Could not load OpenAI key from environment variable {}", key_var);
+            eprintln!(
+                "Could not load OpenAI key from environment variable {}",
+                key_var
+            );
             std::process::exit(exitcode::DATAERR);
         }
     }
@@ -58,15 +66,16 @@ pub async fn complete(prompt: String, input: String) -> String {
     });
 
     let chat_completion = ChatCompletion::builder(&model, messages.clone())
-            .create()
-            .await
-            .expect("ChatCompletion call to OpenAI failed");
+        .create()
+        .await
+        .expect("ChatCompletion call to OpenAI failed");
 
-    let returned_message = chat_completion.choices
-            .first()
-            .expect("Not chat completion choices returned")
-            .message
-            .clone();
+    let returned_message = chat_completion
+        .choices
+        .first()
+        .expect("Not chat completion choices returned")
+        .message
+        .clone();
 
     let output = returned_message.content.clone().unwrap().trim().to_string();
 
