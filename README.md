@@ -22,7 +22,7 @@ And optioanlly, `REFAB_OPENAI_MODEL` should specify the model to use.  It defaul
     % echo "Free disk space" | refab unix                                                                            ✹
     df -h
 
-    % echo "Free disk space" | refab unix| sh                                                                        ✹
+    % echo "Free disk space" | refab unix | sh                                                                        ✹
     Filesystem                             Size   Used  Avail Capacity iused       ifree %iused  Mounted on
     /dev/disk3s1s1                        3.6Ti   11Gi  1.8Ti     1%  356022  4293652260    0%   /
     ...
