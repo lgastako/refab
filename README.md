@@ -146,5 +146,4 @@ And optioanlly, `REFAB_OPENAI_MODEL` should specify the model to use.  It defaul
     % pbpaste | dot -T png -o family.png
     % open family.png
 
-    ![A family tree rendered by graphviz](assets/family.png)
-
+![A family tree rendered by graphviz](assets/family.png)
