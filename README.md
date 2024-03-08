@@ -30,6 +30,7 @@ And optioanlly, `REFAB_OPENAI_MODEL` should specify the model to use.  It defaul
 You can use `fzf` as a confirmation before running shell commands.  It will show you the command that's been suggested, and if you hit [enter] it will accept it and send it on to `sh`, or you can hit `escape` to abort:
 
     % echo "Free disk space" | refab unix | fzf | sh
+    [fzf would open here]
 
     % echo "To optimize SEO, it's crucial to leverage CDN technology and ensure your site's UI/UX is top-notch" | refab dejargonize
     1. SEO: Search Engine Optimization - The practice of enhancing the quality and quantity of website traffic through organic search engine results.
