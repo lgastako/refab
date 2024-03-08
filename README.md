@@ -147,3 +147,7 @@ And optioanlly, `REFAB_OPENAI_MODEL` should specify the model to use.  It defaul
     % open family.png
 
 ![A family tree rendered by graphviz](assets/family.png)
+
+    % % echo "the typical magic link flow" | refab to_plant | plant -pipe > magiclink.png && open magiclink.png
+
+![The magic link flow from PlantUML](assets/magiclink.png)
