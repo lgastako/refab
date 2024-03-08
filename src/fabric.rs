@@ -30,6 +30,9 @@ pub fn list() -> () {
                 if path.is_dir() {
                     let name = path.file_name().expect("Could not get file name");
                     let name_str = name.to_str().expect("Could not convert name to string");
+                    if name_str.starts_with(".") {
+                        continue
+                    }
                     if seen.contains(name_str) {
                         println!("  {} (shadowed)", name.to_str().expect("Could not convert to string"));
                     } else {
