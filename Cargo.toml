@@ -10,4 +10,6 @@ clap = { version = "4.5.1", features = ["derive"] }
 dotenv = "0.15.0"
 exitcode = "1.1.2"
 openai = "1.0.0-alpha.14"
+serde = "1.0.197"
+serde_json = "1.0.114"
 tokio = "1.36.0"

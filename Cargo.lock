@@ -852,6 +852,8 @@ dependencies = [
  "dotenv",
  "exitcode",
  "openai",
+ "serde",
+ "serde_json",
  "tokio",
 ]
 

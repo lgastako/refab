@@ -2,6 +2,7 @@ use clap::Parser;
 use dotenv::dotenv;
 
 mod ai;
+mod cmd;
 mod fabric;
 
 #[derive(Parser)]
@@ -14,7 +15,7 @@ async fn main() {
     dotenv().ok();
     let args = Cli::parse();
     if args.command == "list" {
-        fabric::list();
+        cmd::list();
     } else {
         ai::run(args.command).await;
     }

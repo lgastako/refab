@@ -1,5 +1,3 @@
-cli:
-  options: position1:str pos2:int (optional_pos3) (optional_pos5) --foo=<BAR:int> --baz=<QUX:str>
 system_prompt: |
   # IDENTITY and PURPOSE
 
