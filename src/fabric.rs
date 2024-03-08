@@ -59,7 +59,7 @@ pub fn load(command: String) -> Result<String, String> {
 
     if full_path.is_empty() {
         let msg = format!(
-            "Could not find a file for command '{}'. Checked paths: {}",
+            "Could not find a file for pattern '{}'. Checked paths: {}",
             command, paths
         );
         return Err(msg.to_string());
