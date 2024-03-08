@@ -1,4 +1,4 @@
-use std::{fs::DirEntry, path::Path};
+use std::{collections::HashSet, fs::DirEntry, path::Path};
 
 fn compare_dir_entries(a: &DirEntry, b: &DirEntry) -> std::cmp::Ordering {
     let a = a.path();
@@ -12,6 +12,7 @@ pub fn list() -> () {
     let var = "REFAB_FABRIC_PATTERNS_PATHS".to_string();
     let error_msg = format!("{} environment variable", var);
     let paths = std::env::var(var).expect(&error_msg);
+    let mut seen: HashSet<String> = HashSet::new();
 
     for path in paths.split(";") {
         let check_path = Path::new(path);
@@ -28,7 +29,13 @@ pub fn list() -> () {
                 let path = entry.path();
                 if path.is_dir() {
                     let name = path.file_name().expect("Could not get file name");
-                    println!("  {}", name.to_str().expect("Could not convert to string"));
+                    let name_str = name.to_str().expect("Could not convert name to string");
+                    if seen.contains(name_str) {
+                        println!("  {} (shadowed)", name.to_str().expect("Could not convert to string"));
+                    } else {
+                        println!("  {}", name.to_str().expect("Could not convert to string"));
+                    }
+                    seen.insert(name_str.to_owned());
                 }
             }
         }
